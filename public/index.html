@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindset Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital@0;1&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .serif { font-family: 'Lora', serif; }
+        .fade-in { animation: fadeIn 1.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-amber-200/40 to-transparent blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+    <nav class="border-b border-slate-200/50 bg-white/40 backdrop-blur-md sticky top-0 z-10">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 text-slate-700">
+                <i class="fa-solid fa-leaf text-2xl text-teal-600"></i>
+                <span class="text-lg tracking-wide font-semibold">Mindset Companion</span>
+            </div>
+            <div class="text-xs text-slate-500 uppercase tracking-widest font-medium">Clarity & Peace</div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-3xl mx-auto w-full px-6 py-12 flex flex-col gap-10">
+        
+        <div class="text-center space-y-4 fade-in">
+            <h1 class="text-4xl md:text-5xl serif text-slate-900 font-medium">Breathe. You are safe here.</h1>
+            <p class="text-slate-500 font-light leading-relaxed max-w-xl mx-auto">
+                No matter how heavy things feel right now, clarity is just a step away. Select your current state, share what's on your mind, and let's find your center.
+            </p>
+        </div>
+
+        <div class="bg-white border border-slate-100 rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <label class="block text-xs uppercase tracking-widest text-slate-400 font-semibold mb-4">1. Right now, I am feeling...</label>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8" id="stateSelector">
+                <button class="state-btn active border-2 border-teal-500 bg-teal-50 text-teal-700 font-medium py-2.5 rounded-xl text-sm transition-all shadow-sm" data-state="Burned Out">Burned Out</button>
+                <button class="state-btn border border-slate-200 bg-white text-slate-500 font-medium py-2.5 rounded-xl text-sm hover:border-teal-200 hover:bg-teal-50/50 transition-all" data-state="Anxious about the future">Anxious</button>
+                <button class="state-btn border border-slate-200 bg-white text-slate-500 font-medium py-2.5 rounded-xl text-sm hover:border-teal-200 hover:bg-teal-50/50 transition-all" data-state="Lost and Unfocused">Lost Focus</button>
+                <button class="state-btn border border-slate-200 bg-white text-slate-500 font-medium py-2.5 rounded-xl text-sm hover:border-teal-200 hover:bg-teal-50/50 transition-all" data-state="Overwhelmed by pressure">Overwhelmed</button>
+            </div>
+
+            <label class="block text-xs uppercase tracking-widest text-slate-400 font-semibold mb-4">2. What is weighing on your mind?</label>
+            <textarea id="userThoughts" rows="4" placeholder="Speak freely. I am here to listen..." 
+                class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-slate-700 focus:outline-none focus:border-teal-400 focus:ring-4 focus:ring-teal-50 transition-all resize-none"></textarea>
+
+            <button onclick="seekGuidance()" id="submitBtn"
+                class="mt-6 w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-4 rounded-2xl transition-all shadow-lg shadow-teal-600/20 flex justify-center items-center gap-3">
+                <span>Find Clarity</span>
+                <i class="fa-solid fa-arrow-right font-light"></i>
+            </button>
+        </div>
+
+        <div id="outputSection" class="hidden bg-white border border-amber-100 rounded-3xl p-8 shadow-[0_8px_30px_rgb(251,191,36,0.1)] mb-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-amber-300 to-teal-400"></div>
+            
+            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4 pl-4">
+                <i class="fa-solid fa-sun text-amber-500"></i>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">Your Guidance</span>
+            </div>
+            
+            <div id="loadingIndicator" class="hidden flex items-center justify-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-teal-500"></i>
+            </div>
+
+            <div id="wisdomText" class="text-lg leading-relaxed text-slate-700 serif pl-4 whitespace-pre-wrap">
+                </div>
+        </div>
+
+    </main>
+
+    <script>
+        let currentState = "Burned Out";
+
+        // Handle state button clicks
+        document.querySelectorAll('.state-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Reset all buttons
+                document.querySelectorAll('.state-btn').forEach(b => {
+                    b.className = 'state-btn border border-slate-200 bg-white text-slate-500 font-medium py-2.5 rounded-xl text-sm hover:border-teal-200 hover:bg-teal-50/50 transition-all';
+                });
+                // Highlight clicked button
+                e.target.className = 'state-btn active border-2 border-teal-500 bg-teal-50 text-teal-700 font-medium py-2.5 rounded-xl text-sm transition-all shadow-sm';
+                // Save state
+                currentState = e.target.getAttribute('data-state');
+            });
+        });
+
+        async function seekGuidance() {
+            const thoughts = document.getElementById('userThoughts').value;
+            if (!thoughts.trim()) return;
+
+            const submitBtn = document.getElementById('submitBtn');
+            const outputSection = document.getElementById('outputSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const wisdomText = document.getElementById('wisdomText');
+
+            const combinedMessage = `I am feeling ${currentState}. Here is what is on my mind: ${thoughts}`;
+
+            // UI Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            wisdomText.innerHTML = '';
+            outputSection.classList.remove('hidden');
+            outputSection.classList.remove('fade-in');
+            loadingIndicator.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/guidance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: combinedMessage })
+                });
+
+                const data = await response.json();
+                
+                loadingIndicator.classList.add('hidden');
+                wisdomText.innerHTML = data.reply;
+                outputSection.classList.add('fade-in');
+
+            } catch (error) {
+                loadingIndicator.classList.add('hidden');
+                wisdomText.innerHTML = "System Error: Cannot connect to the server. Please check your backend.";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Find Clarity</span><i class="fa-solid fa-arrow-right font-light"></i>';
+                document.getElementById('userThoughts').value = ''; 
+            }
+        }
+    </script>
+</body>
+</html>
