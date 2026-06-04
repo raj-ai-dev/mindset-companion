@@ -6,221 +6,220 @@
     <title>Mindset Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Clean, calm fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .serif { font-family: 'Lora', serif; }
-        
-        /* The Breathing Animation */
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.2; }
-            50% { transform: scale(1.5); opacity: 0.05; }
+        /* The exact soft, misty, sage-green vibe from your favorite screenshot */
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: #f8fafc;
+            background: linear-gradient(to bottom, #9caea3 0%, #7d9387 50%, #5d7568 100%);
+            background-attachment: fixed; /* Keeps the gradient smooth while scrolling */
+            scroll-behavior: smooth;
         }
-        .animate-breathe { animation: breathe 8s ease-in-out infinite; }
-
-        /* Scroll Reveal CSS */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .serif-text { font-family: 'Playfair Display', serif; }
         
-        /* Custom Textarea scrollbar */
-        textarea::-webkit-scrollbar { width: 6px; }
-        textarea::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        /* Step 1: The Breathing Circle */
+        .breathe-container {
+            position: relative; width: 200px; height: 200px;
+            display: flex; justify-content: center; align-items: center; margin: 0 auto;
+        }
+        .breathe-circle {
+            position: absolute; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: breatheAnimation 8s infinite ease-in-out;
+        }
+        .breathe-text { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.7; }
+        
+        @keyframes breatheAnimation {
+            0% { transform: scale(0.6); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.6); opacity: 0.3; }
+        }
+
+        /* Soft Glass UI */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+        }
+        .glass-panel:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .glass-input:focus { outline: none; border-color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.08); }
+
+        /* Scroll Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Custom formatting for the AI wisdom */
+        #wisdomText p { margin-bottom: 1.5rem; line-height: 1.8; font-weight: 300; font-size: 1.1rem; }
+        #wisdomText strong { font-weight: 500; color: #ffffff; } 
+        #wisdomText blockquote { 
+            border-left: 2px solid rgba(255,255,255,0.5); padding-left: 1.5rem; font-style: italic; 
+            margin: 2rem 0; background: rgba(255,255,255,0.05); padding: 1.5rem;
+        }
     </style>
 </head>
-<body class="bg-[#FAFAFA] text-slate-800 relative selection:bg-teal-100 selection:text-teal-900">
+<body>
 
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-amber-100/50 via-teal-50/30 to-transparent blur-3xl -z-10 rounded-full pointer-events-none"></div>
+<!-- Minimal Nav -->
+<nav class="fixed top-0 w-full z-50 p-6 flex justify-center opacity-80 mix-blend-overlay">
+    <span class="text-xs tracking-[0.3em] uppercase font-light flex items-center gap-2">
+        <i class="fa-solid fa-leaf text-teal-300/80"></i> Mindset Companion
+    </span>
+</nav>
 
-    <nav class="fixed top-0 w-full bg-white/50 backdrop-blur-md z-50 border-b border-slate-200/50 transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-8 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3 text-slate-700">
-                <i class="fa-solid fa-leaf text-2xl text-teal-600"></i>
-                <span class="text-lg tracking-wider font-semibold">Mindset Companion</span>
+    <!-- STEP 1: The Exhale Phase -->
+    <section class="min-h-screen flex flex-col items-center justify-center relative px-6 text-center">
+        <div class="space-y-12">
+            <h1 class="text-5xl md:text-6xl font-light text-white serif-text drop-shadow-md">
+                Listen to the silence.
+            </h1>
+            
+            <div class="breathe-container">
+                <div class="breathe-circle" style="width: 100%; height: 100%;"></div>
+                <div class="breathe-circle" style="width: 70%; height: 70%; animation-delay: 0.5s;"></div>
+                <span class="breathe-text">Breathe</span>
             </div>
-        </div>
-    </nav>
 
-    <section class="min-h-screen flex flex-col items-center justify-center relative px-6">
-        <div class="absolute w-64 h-64 bg-teal-300 rounded-full animate-breathe blur-3xl pointer-events-none"></div>
-        
-        <div class="z-10 text-center space-y-6 reveal">
-            <h1 class="text-5xl md:text-7xl serif text-slate-900 font-medium tracking-tight">Find your center.</h1>
-            <p class="text-lg text-slate-500 font-light max-w-lg mx-auto leading-relaxed">
-                A digital sanctuary to organize your thoughts, release your anxiety, and find clarity through wisdom.
+            <p class="text-lg text-white/70 font-light max-w-md mx-auto">
+                Before we begin, take three deep breaths with this circle. Just watch it expand and contract.
             </p>
         </div>
 
-        <div class="absolute bottom-12 flex flex-col items-center gap-3 opacity-60 reveal" style="transition-delay: 0.5s;">
-            <span class="text-xs uppercase tracking-widest font-semibold text-slate-500">Begin Journey</span>
-            <a href="#step1" class="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center animate-bounce text-teal-600 hover:scale-110 transition-transform">
-                <i class="fa-solid fa-arrow-down"></i>
-            </a>
+        <div class="absolute bottom-12 flex flex-col items-center gap-3 opacity-60">
+            <span class="text-[10px] uppercase tracking-[0.3em] font-light">Scroll down when you feel lighter</span>
+            <div class="w-[1px] h-12 bg-white/50"></div>
         </div>
     </section>
 
-    <section id="step1" class="min-h-[80vh] flex flex-col items-center justify-center px-6 border-t border-slate-200/50">
-        <div class="w-full max-w-3xl reveal">
-            <div class="text-center mb-12">
-                <span class="text-teal-600 font-semibold tracking-widest uppercase text-sm mb-2 block">Step 1</span>
-                <h2 class="text-3xl md:text-4xl serif text-slate-800">Acknowledge your state.</h2>
-                <p class="text-slate-500 mt-3">Be honest with yourself right now. How are you feeling?</p>
-            </div>
+    <!-- STEP 2: The Gentle Check-in -->
+    <section id="step2" class="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+        <div class="w-full max-w-3xl reveal text-center">
+            <h2 class="text-3xl md:text-5xl font-light text-white serif-text mb-6">Where do you feel the weight?</h2>
+            <p class="text-white/70 font-light mb-12">Select the area that feels the most tense right now.</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="stateSelector">
-                <button onclick="setState('Burned Out')" class="state-btn group bg-white border border-slate-200 p-6 rounded-2xl hover:border-teal-300 hover:shadow-lg transition-all text-left flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-slate-700 group-hover:text-teal-700 transition-colors">Burned Out</h3>
-                        <p class="text-sm text-slate-500 mt-1">Exhausted, running on empty.</p>
-                    </div>
-                    <i class="fa-solid fa-battery-empty text-2xl text-slate-300 group-hover:text-teal-400 transition-colors"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="selectWeight('My Mind (Racing thoughts, anxiety, lack of focus)')" class="weight-btn glass-panel p-8 rounded-2xl text-center group">
+                    <i class="fa-solid fa-cloud text-2xl mb-4 text-white/50 group-hover:text-white transition-colors"></i>
+                    <h3 class="text-xl font-light text-white">My Mind</h3>
                 </button>
-
-                <button onclick="setState('Anxious about the future')" class="state-btn group bg-white border border-slate-200 p-6 rounded-2xl hover:border-teal-300 hover:shadow-lg transition-all text-left flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-slate-700 group-hover:text-teal-700 transition-colors">Anxious</h3>
-                        <p class="text-sm text-slate-500 mt-1">Worried about what comes next.</p>
-                    </div>
-                    <i class="fa-solid fa-wind text-2xl text-slate-300 group-hover:text-teal-400 transition-colors"></i>
+                <button onclick="selectWeight('My Chest (Heavy feeling, emotional exhaustion)')" class="weight-btn glass-panel p-8 rounded-2xl text-center group">
+                    <i class="fa-solid fa-heart text-2xl mb-4 text-white/50 group-hover:text-white transition-colors"></i>
+                    <h3 class="text-xl font-light text-white">My Chest</h3>
                 </button>
-
-                <button onclick="setState('Lost and Unfocused')" class="state-btn group bg-white border border-slate-200 p-6 rounded-2xl hover:border-teal-300 hover:shadow-lg transition-all text-left flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-slate-700 group-hover:text-teal-700 transition-colors">Lost Focus</h3>
-                        <p class="text-sm text-slate-500 mt-1">Unable to concentrate on the task.</p>
-                    </div>
-                    <i class="fa-solid fa-compass text-2xl text-slate-300 group-hover:text-teal-400 transition-colors"></i>
-                </button>
-
-                <button onclick="setState('Overwhelmed by pressure')" class="state-btn group bg-white border border-slate-200 p-6 rounded-2xl hover:border-teal-300 hover:shadow-lg transition-all text-left flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-slate-700 group-hover:text-teal-700 transition-colors">Overwhelmed</h3>
-                        <p class="text-sm text-slate-500 mt-1">Too much weight on your shoulders.</p>
-                    </div>
-                    <i class="fa-solid fa-water text-2xl text-slate-300 group-hover:text-teal-400 transition-colors"></i>
+                <button onclick="selectWeight('My Shoulders (Pressure, burdens, burnout)')" class="weight-btn glass-panel p-8 rounded-2xl text-center group">
+                    <i class="fa-solid fa-weight-hanging text-2xl mb-4 text-white/50 group-hover:text-white transition-colors"></i>
+                    <h3 class="text-xl font-light text-white">My Shoulders</h3>
                 </button>
             </div>
         </div>
     </section>
 
-    <section id="step2" class="min-h-[80vh] flex flex-col items-center justify-center px-6 border-t border-slate-200/50">
-        <div class="w-full max-w-3xl reveal">
-            <div class="text-center mb-10">
-                <span class="text-teal-600 font-semibold tracking-widest uppercase text-sm mb-2 block">Step 2</span>
-                <h2 class="text-3xl md:text-4xl serif text-slate-800">Release your thoughts.</h2>
-                <p class="text-slate-500 mt-3">Write down exactly what is bothering you. Get it out of your head.</p>
-            </div>
+    <!-- STEP 3: The Release -->
+    <section id="step3" class="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+        <div class="w-full max-w-3xl reveal text-center">
+            <h2 class="text-3xl md:text-5xl font-light text-white serif-text mb-6">I am here.</h2>
+            <p class="text-white/70 font-light mb-8">Tell me what is causing this weight. Let it leave your mind and rest here.</p>
             
-            <div class="bg-white p-2 rounded-3xl shadow-sm border border-slate-200 focus-within:border-teal-400 focus-within:shadow-md transition-all duration-300">
-                <textarea id="userThoughts" rows="5" placeholder="I am feeling this way because..." 
-                    class="w-full bg-transparent p-6 text-lg text-slate-700 focus:outline-none resize-none"></textarea>
+            <div id="inputContainer" class="transition-all duration-1000">
+                <textarea id="userThoughts" rows="5" placeholder="Start typing..." 
+                    class="w-full glass-input rounded-2xl p-6 text-lg placeholder:text-white/30 resize-none"></textarea>
                 
-                <div class="flex justify-end p-2 border-t border-slate-100">
-                    <button onclick="seekGuidance()" id="submitBtn"
-                        class="bg-slate-900 hover:bg-teal-700 text-white font-medium py-3 px-8 rounded-2xl transition-all flex justify-center items-center gap-3">
-                        <span>Seek Clarity</span>
-                        <i class="fa-solid fa-sparkles"></i>
+                <div class="mt-6 flex justify-end">
+                    <button onclick="seekGuidance()" id="submitBtn" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-light py-3 px-8 rounded-full transition-all text-sm tracking-widest uppercase flex items-center gap-3">
+                        <span>Release</span>
+                        <i class="fa-solid fa-feather-pointed"></i>
                     </button>
                 </div>
             </div>
+
+            <!-- The Dissolve / Loading State -->
+            <div id="loadingState" class="hidden flex-col items-center justify-center py-10 opacity-0 transition-opacity duration-1000">
+                <div class="breathe-circle" style="width: 60px; height: 60px; position: relative;"></div>
+                <p class="text-xs tracking-[0.3em] uppercase text-white/60 mt-6 animate-pulse">Letting go...</p>
+            </div>
         </div>
     </section>
 
-    <section id="step3" class="hidden min-h-screen flex-col items-center justify-center px-6 border-t border-slate-200/50 bg-white">
-        <div class="w-full max-w-3xl reveal pt-20 pb-32">
-            <div class="text-center mb-12">
-                <span class="text-amber-500 font-semibold tracking-widest uppercase text-sm mb-2 block">Step 3</span>
-                <h2 class="text-3xl md:text-4xl serif text-slate-800">Receive Guidance.</h2>
+    <!-- STEP 4: The Wisdom (Appears at the very bottom) -->
+    <section id="step4" class="hidden min-h-screen flex-col items-center justify-center px-6 py-20 bg-black/20">
+        <div class="w-full max-w-4xl reveal">
+            <div class="glass-panel p-10 md:p-16 rounded-[2rem]">
+                <div id="wisdomText" class="text-lg text-white/90 font-light serif-text">
+                    <!-- AI text goes here -->
+                </div>
             </div>
-            
-            <div id="loadingIndicator" class="hidden flex-col items-center justify-center py-20 gap-4">
-                <i class="fa-solid fa-circle-notch fa-spin text-4xl text-teal-500"></i>
-                <p class="text-slate-500 animate-pulse font-medium">The master is reflecting on your thoughts...</p>
-            </div>
-
-            <div id="wisdomContainer" class="hidden relative">
-                <i class="fa-solid fa-quote-left text-6xl text-slate-100 absolute -top-8 -left-8 -z-10"></i>
-                <div id="wisdomText" class="text-xl md:text-2xl leading-relaxed text-slate-700 serif whitespace-pre-wrap">
-                    </div>
-            </div>
-            
-            <div class="mt-16 text-center" id="resetContainer" style="display: none;">
-                <button onclick="window.scrollTo(0,0); setTimeout(() => location.reload(), 500);" class="text-slate-400 hover:text-teal-600 transition-colors underline font-medium">
-                    Begin another reflection
+            <div class="mt-12 text-center">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'}); setTimeout(()=>location.reload(), 800);" class="text-xs text-white/50 hover:text-white tracking-[0.2em] uppercase transition-all border-b border-transparent hover:border-white pb-1">
+                    Return to the start
                 </button>
             </div>
         </div>
     </section>
 
     <script>
-        // 1. Scroll Reveal Animation Logic (Intersection Observer)
+        // 1. Scroll Reveal Logic (Makes things fade in smoothly as you scroll)
         function initScrollAnimations() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.15 }); // Triggers when 15% of the element is visible
-
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
             reveals.forEach(reveal => observer.observe(reveal));
         }
-        
-        // Run animations on load
         window.addEventListener('load', initScrollAnimations);
 
-        // 2. Application Logic
-        let currentState = "Burned Out"; // Default
+        let selectedWeight = "";
 
-        function setState(state) {
-            currentState = state;
+        // 2. Handle Selection
+        function selectWeight(weightType) {
+            selectedWeight = weightType;
             
-            // Visual feedback on buttons
-            document.querySelectorAll('.state-btn').forEach(btn => {
-                btn.classList.remove('border-teal-400', 'bg-teal-50', 'ring-2', 'ring-teal-100');
+            // Visual feedback
+            document.querySelectorAll('.weight-btn').forEach(btn => {
+                btn.style.background = 'rgba(255, 255, 255, 0.05)';
+                btn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
             });
-            event.currentTarget.classList.add('border-teal-400', 'bg-teal-50', 'ring-2', 'ring-teal-100');
-            
-            // Smooth scroll to next section
-            document.getElementById('step2').scrollIntoView({ behavior: 'smooth' });
-            
-            // Auto-focus the text area slightly after scroll
-            setTimeout(() => {
-                document.getElementById('userThoughts').focus();
-            }, 800);
+            event.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+            event.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+
+            // Auto-scroll to step 3
+            document.getElementById('step3').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => document.getElementById('userThoughts').focus(), 800);
         }
 
+        // 3. Handle the Submission & "Dissolve" Effect
         async function seekGuidance() {
             const thoughts = document.getElementById('userThoughts').value;
-            if (!thoughts.trim()) {
-                alert("Please share your thoughts before seeking guidance.");
-                return;
+            if (!thoughts.trim() || !selectedWeight) { 
+                alert("Please select an area of weight above, and share your thoughts."); 
+                return; 
             }
 
-            const submitBtn = document.getElementById('submitBtn');
-            const step3 = document.getElementById('step3');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const wisdomContainer = document.getElementById('wisdomContainer');
+            const inputContainer = document.getElementById('inputContainer');
+            const loadingState = document.getElementById('loadingState');
+            const step4 = document.getElementById('step4');
             const wisdomText = document.getElementById('wisdomText');
-            const resetContainer = document.getElementById('resetContainer');
 
-            const combinedMessage = `I am feeling ${currentState}. Here is what is on my mind: ${thoughts}`;
+            // The Dissolve Effect! Fade out the text box, fade in the breathing loader
+            inputContainer.style.opacity = '0';
+            setTimeout(() => {
+                inputContainer.style.display = 'none';
+                loadingState.classList.remove('hidden');
+                loadingState.classList.add('flex');
+                setTimeout(() => loadingState.style.opacity = '1', 50);
+            }, 1000);
 
-            // UI Loading state
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
-            
-            // Unhide step 3 and scroll to it
-            step3.classList.remove('hidden');
-            step3.classList.add('flex');
-            step3.scrollIntoView({ behavior: 'smooth' });
-            
-            // Re-initialize animations for the newly unhidden section
-            initScrollAnimations();
-
-            wisdomContainer.classList.add('hidden');
-            loadingIndicator.classList.remove('hidden');
-            loadingIndicator.classList.add('flex');
+            const combinedMessage = `I am feeling the weight in: ${selectedWeight}. Here is what is causing it: ${thoughts}`;
 
             try {
                 const response = await fetch('/api/guidance', {
@@ -231,24 +230,25 @@
 
                 const data = await response.json();
                 
-                loadingIndicator.classList.add('hidden');
-                loadingIndicator.classList.remove('flex');
+                // Show the final section
+                step4.classList.remove('hidden');
+                step4.classList.add('flex');
                 
-                wisdomText.innerHTML = data.reply;
-                wisdomContainer.classList.remove('hidden');
+                // Parse markdown and inject
+                wisdomText.innerHTML = marked.parse(data.reply);
                 
-                // Show reset button
-                setTimeout(() => { resetContainer.style.display = 'block'; }, 2000);
+                // Scroll down to the final wisdom
+                setTimeout(() => {
+                    step4.scrollIntoView({ behavior: 'smooth' });
+                    // Trigger reveal for final box
+                    initScrollAnimations();
+                }, 500);
 
             } catch (error) {
-                loadingIndicator.classList.add('hidden');
-                loadingIndicator.classList.remove('flex');
-                wisdomText.innerHTML = "System Error: The connection was lost. Please ensure your backend server is running.";
-                wisdomContainer.classList.remove('hidden');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Seek Clarity</span><i class="fa-solid fa-sparkles"></i>';
-                document.getElementById('userThoughts').value = ''; 
+                wisdomText.innerHTML = "System error. Please take a breath and try again.";
+                step4.classList.remove('hidden');
+                step4.classList.add('flex');
+                step4.scrollIntoView({ behavior: 'smooth' });
             }
         }
     </script>
