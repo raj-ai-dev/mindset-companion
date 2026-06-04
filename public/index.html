@@ -6,96 +6,104 @@
     <title>Mindset Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Clean, calm fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
-        /* The exact soft, misty, sage-green vibe from your favorite screenshot */
         body { 
             font-family: 'Outfit', sans-serif; 
             color: #f8fafc;
             background: linear-gradient(to bottom, #9caea3 0%, #7d9387 50%, #5d7568 100%);
-            background-attachment: fixed; /* Keeps the gradient smooth while scrolling */
+            background-attachment: fixed;
             scroll-behavior: smooth;
         }
         .serif-text { font-family: 'Playfair Display', serif; }
         
-        /* Step 1: The Breathing Circle */
-        .breathe-container {
-            position: relative; width: 200px; height: 200px;
-            display: flex; justify-content: center; align-items: center; margin: 0 auto;
-        }
-        .breathe-circle {
-            position: absolute; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: breatheAnimation 8s infinite ease-in-out;
-        }
+        .breathe-container { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; margin: 0 auto; }
+        .breathe-circle { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); animation: breatheAnimation 8s infinite ease-in-out; }
         .breathe-text { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.7; }
-        
-        @keyframes breatheAnimation {
-            0% { transform: scale(0.6); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-            100% { transform: scale(0.6); opacity: 0.3; }
-        }
+        @keyframes breatheAnimation { 0% { transform: scale(0.6); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 0.8; } 100% { transform: scale(0.6); opacity: 0.3; } }
 
-        /* Soft Glass UI */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.4s ease;
-        }
+        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.4s ease; }
         .glass-panel:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
-        
-        .glass-input {
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
+        .glass-input { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.2); color: white; }
         .glass-input:focus { outline: none; border-color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.08); }
 
-        /* Scroll Reveal Animation */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Custom formatting for the AI wisdom */
         #wisdomText p { margin-bottom: 1.5rem; line-height: 1.8; font-weight: 300; font-size: 1.1rem; }
         #wisdomText strong { font-weight: 500; color: #ffffff; } 
-        #wisdomText blockquote { 
-            border-left: 2px solid rgba(255,255,255,0.5); padding-left: 1.5rem; font-style: italic; 
-            margin: 2rem 0; background: rgba(255,255,255,0.05); padding: 1.5rem;
-        }
+        #wisdomText blockquote { border-left: 2px solid rgba(255,255,255,0.5); padding-left: 1.5rem; font-style: italic; margin: 2rem 0; background: rgba(255,255,255,0.05); padding: 1.5rem; }
     </style>
 </head>
-<body>
+<body class="relative">
 
-<!-- Minimal Nav -->
-<nav class="fixed top-0 w-full z-50 p-6 flex justify-center opacity-80 mix-blend-overlay">
-    <span class="text-xs tracking-[0.3em] uppercase font-light flex items-center gap-2">
-        <i class="fa-solid fa-leaf text-teal-300/80"></i> Mindset Companion
-    </span>
-</nav>
+    <!-- Top App Navigation -->
+    <nav class="fixed top-0 w-full z-40 p-6 flex justify-between items-center mix-blend-overlay">
+        <div class="w-8"></div> <!-- Spacer -->
+        <span class="text-xs tracking-[0.3em] uppercase font-light flex items-center gap-2">
+            <i class="fa-solid fa-leaf text-teal-200"></i> Mindset Companion
+        </span>
+        <!-- Added onclick to open the menu -->
+        <button onclick="toggleMenu()" class="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+            <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+    </nav>
+
+    <!-- The Slide-out Premium Menu -->
+    <div id="sideMenu" class="fixed top-0 right-[-100%] w-72 h-full glass-panel z-[60] transition-all duration-500 flex flex-col p-8 shadow-2xl bg-[#5d7568]/95">
+        <div class="flex justify-between items-center mb-10">
+            <span class="text-xs tracking-[0.2em] uppercase text-teal-100 font-medium">Menu</span>
+            <button onclick="toggleMenu()" class="text-white/70 hover:text-white text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div class="flex flex-col gap-6 text-white/90 font-light tracking-wide mb-8">
+            <a href="#" class="hover:text-teal-300 transition-colors flex items-center gap-4"><i class="fa-solid fa-route w-5"></i> My Journey</a>
+            <a href="#" class="hover:text-teal-300 transition-colors flex items-center gap-4"><i class="fa-solid fa-bookmark w-5"></i> Saved Wisdom</a>
+            <a href="#" class="hover:text-teal-300 transition-colors flex items-center gap-4"><i class="fa-solid fa-gear w-5"></i> Settings</a>
+        </div>
+
+        <div class="flex flex-col gap-5 mt-4 pt-6 border-t border-white/10">
+            <span class="text-[10px] uppercase tracking-widest text-teal-200/60 mb-2">Upcoming Modules</span>
+            
+            <div class="group flex justify-between items-center opacity-50 cursor-default">
+                <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-microphone-lines w-5 text-teal-200"></i> Voice AI</div>
+                <span class="text-[8px] tracking-wider border border-teal-200/30 px-2 py-1 rounded-full text-teal-200">IN DEV</span>
+            </div>
+            
+            <div class="group flex justify-between items-center opacity-50 cursor-default">
+                <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-video w-5 text-teal-200"></i> Video Avatar</div>
+                <span class="text-[8px] tracking-wider border border-teal-200/30 px-2 py-1 rounded-full text-teal-200">IN DEV</span>
+            </div>
+        </div>
+
+        <div class="mt-auto">
+            <button class="w-full py-4 rounded-xl border border-teal-400/30 text-teal-100 hover:bg-teal-900/40 transition-all text-xs uppercase tracking-widest flex justify-center items-center gap-2">
+                <i class="fa-solid fa-lock text-[10px]"></i> Premium (Soon)
+            </button>
+        </div>
+    </div>
+    
+    <!-- Dark Overlay behind the menu -->
+    <div id="menuOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/40 z-[55] hidden opacity-0 transition-opacity duration-500"></div>
+
+    <!-- Floating Grounding Button -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 z-40 glass-panel px-5 py-3 rounded-full text-xs tracking-widest uppercase flex items-center gap-2 hover:bg-white/10 shadow-lg group">
+        <i class="fa-solid fa-wind text-teal-200 group-hover:animate-pulse"></i> Pause
+    </button>
 
     <!-- STEP 1: The Exhale Phase -->
     <section class="min-h-screen flex flex-col items-center justify-center relative px-6 text-center">
         <div class="space-y-12">
-            <h1 class="text-5xl md:text-6xl font-light text-white serif-text drop-shadow-md">
-                Listen to the silence.
-            </h1>
-            
+            <h1 class="text-5xl md:text-6xl font-light text-white serif-text drop-shadow-md">Listen to the silence.</h1>
             <div class="breathe-container">
                 <div class="breathe-circle" style="width: 100%; height: 100%;"></div>
                 <div class="breathe-circle" style="width: 70%; height: 70%; animation-delay: 0.5s;"></div>
                 <span class="breathe-text">Breathe</span>
             </div>
-
-            <p class="text-lg text-white/70 font-light max-w-md mx-auto">
-                Before we begin, take three deep breaths with this circle. Just watch it expand and contract.
-            </p>
+            <p class="text-lg text-white/70 font-light max-w-md mx-auto">Before we begin, take three deep breaths with this circle. Just watch it expand and contract.</p>
         </div>
-
         <div class="absolute bottom-12 flex flex-col items-center gap-3 opacity-60">
             <span class="text-[10px] uppercase tracking-[0.3em] font-light">Scroll down when you feel lighter</span>
             <div class="w-[1px] h-12 bg-white/50"></div>
@@ -107,7 +115,6 @@
         <div class="w-full max-w-3xl reveal text-center">
             <h2 class="text-3xl md:text-5xl font-light text-white serif-text mb-6">Where do you feel the weight?</h2>
             <p class="text-white/70 font-light mb-12">Select the area that feels the most tense right now.</p>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button onclick="selectWeight('My Mind (Racing thoughts, anxiety, lack of focus)')" class="weight-btn glass-panel p-8 rounded-2xl text-center group">
                     <i class="fa-solid fa-cloud text-2xl mb-4 text-white/50 group-hover:text-white transition-colors"></i>
@@ -130,11 +137,8 @@
         <div class="w-full max-w-3xl reveal text-center">
             <h2 class="text-3xl md:text-5xl font-light text-white serif-text mb-6">I am here.</h2>
             <p class="text-white/70 font-light mb-8">Tell me what is causing this weight. Let it leave your mind and rest here.</p>
-            
             <div id="inputContainer" class="transition-all duration-1000">
-                <textarea id="userThoughts" rows="5" placeholder="Start typing..." 
-                    class="w-full glass-input rounded-2xl p-6 text-lg placeholder:text-white/30 resize-none"></textarea>
-                
+                <textarea id="userThoughts" rows="5" placeholder="Start typing..." class="w-full glass-input rounded-2xl p-6 text-lg placeholder:text-white/30 resize-none"></textarea>
                 <div class="mt-6 flex justify-end">
                     <button onclick="seekGuidance()" id="submitBtn" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-light py-3 px-8 rounded-full transition-all text-sm tracking-widest uppercase flex items-center gap-3">
                         <span>Release</span>
@@ -142,8 +146,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- The Dissolve / Loading State -->
             <div id="loadingState" class="hidden flex-col items-center justify-center py-10 opacity-0 transition-opacity duration-1000">
                 <div class="breathe-circle" style="width: 60px; height: 60px; position: relative;"></div>
                 <p class="text-xs tracking-[0.3em] uppercase text-white/60 mt-6 animate-pulse">Letting go...</p>
@@ -151,13 +153,11 @@
         </div>
     </section>
 
-    <!-- STEP 4: The Wisdom (Appears at the very bottom) -->
+    <!-- STEP 4: The Wisdom -->
     <section id="step4" class="hidden min-h-screen flex-col items-center justify-center px-6 py-20 bg-black/20">
         <div class="w-full max-w-4xl reveal">
             <div class="glass-panel p-10 md:p-16 rounded-[2rem]">
-                <div id="wisdomText" class="text-lg text-white/90 font-light serif-text">
-                    <!-- AI text goes here -->
-                </div>
+                <div id="wisdomText" class="text-lg text-white/90 font-light serif-text"></div>
             </div>
             <div class="mt-12 text-center">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'}); setTimeout(()=>location.reload(), 800);" class="text-xs text-white/50 hover:text-white tracking-[0.2em] uppercase transition-all border-b border-transparent hover:border-white pb-1">
@@ -168,7 +168,6 @@
     </section>
 
     <script>
-        // 1. Scroll Reveal Logic (Makes things fade in smoothly as you scroll)
         function initScrollAnimations() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -180,37 +179,27 @@
 
         let selectedWeight = "";
 
-        // 2. Handle Selection
         function selectWeight(weightType) {
             selectedWeight = weightType;
-            
-            // Visual feedback
             document.querySelectorAll('.weight-btn').forEach(btn => {
                 btn.style.background = 'rgba(255, 255, 255, 0.05)';
                 btn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
             });
             event.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
             event.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
-
-            // Auto-scroll to step 3
             document.getElementById('step3').scrollIntoView({ behavior: 'smooth' });
             setTimeout(() => document.getElementById('userThoughts').focus(), 800);
         }
 
-        // 3. Handle the Submission & "Dissolve" Effect
         async function seekGuidance() {
             const thoughts = document.getElementById('userThoughts').value;
-            if (!thoughts.trim() || !selectedWeight) { 
-                alert("Please select an area of weight above, and share your thoughts."); 
-                return; 
-            }
+            if (!thoughts.trim() || !selectedWeight) { alert("Please select an area of weight above, and share your thoughts."); return; }
 
             const inputContainer = document.getElementById('inputContainer');
             const loadingState = document.getElementById('loadingState');
             const step4 = document.getElementById('step4');
             const wisdomText = document.getElementById('wisdomText');
 
-            // The Dissolve Effect! Fade out the text box, fade in the breathing loader
             inputContainer.style.opacity = '0';
             setTimeout(() => {
                 inputContainer.style.display = 'none';
@@ -227,28 +216,37 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: combinedMessage })
                 });
-
                 const data = await response.json();
-                
-                // Show the final section
                 step4.classList.remove('hidden');
                 step4.classList.add('flex');
-                
-                // Parse markdown and inject
                 wisdomText.innerHTML = marked.parse(data.reply);
-                
-                // Scroll down to the final wisdom
                 setTimeout(() => {
                     step4.scrollIntoView({ behavior: 'smooth' });
-                    // Trigger reveal for final box
                     initScrollAnimations();
                 }, 500);
-
             } catch (error) {
                 wisdomText.innerHTML = "System error. Please take a breath and try again.";
                 step4.classList.remove('hidden');
                 step4.classList.add('flex');
                 step4.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Hamburger Menu Logic
+        let menuOpen = false;
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            menuOpen = !menuOpen;
+            
+            if (menuOpen) {
+                menu.style.right = '0'; // Slide in
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.style.opacity = '1', 10);
+            } else {
+                menu.style.right = '-100%'; // Slide out
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.classList.add('hidden'), 500);
             }
         }
     </script>
